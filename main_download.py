@@ -11,7 +11,7 @@ class MainDownload:
         
     def run(self):
         pass
-        
+    
     @staticmethod
     def get_response(url, headers=None, decode=False):
         response = ""
@@ -24,6 +24,18 @@ class MainDownload:
                 response = str(result.content.decode())
             else:
                 response = str(result.content)
+        except Exception as e:
+            print(e)
+        return response
+    
+    @staticmethod
+    def get_json(url,  headers=None):
+        response = ""
+        if headers == None:
+            headers = {}
+            headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
+        try:
+            response = requests.get(url, headers=headers).json()
         except Exception as e:
             print(e)
         return response

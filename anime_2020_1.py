@@ -2,7 +2,7 @@ import os
 from main_download import MainDownload
 
 # Darwin's Game https://darwins-game.com/story/ #Dゲーム @d_game_official [WED]
-# Eizouken http://eizouken-anime.com/story/ #映像研 @Eizouken_anime
+# Eizouken http://eizouken-anime.com/story/ #映像研 @Eizouken_anime [THU]
 # Gotoubun no Hanayome http://www.tbs.co.jp/anime/5hanayome/ #五等分の花嫁 @5Hanayome
 # Hatena Illusion http://hatenaillusion-anime.com/ #はてなイリュージョン #hatenaillusion @hatena_anime
 # Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [WED]
@@ -73,7 +73,8 @@ class DarwinsGameDownload(Winter2020AnimeDownload):
 
 # Eizouken ni wa Te wo Dasu na!
 class EizoukenDownload(Winter2020AnimeDownload):
-    PAGE_PREFIX = "http://eizouken-anime.com/"
+    PAGE_PREFIX = "http://eizouken-anime.com"
+    STORY_DATA_JSON = "http://eizouken-anime.com/story/story_data.json"
     
     def __init__(self):
         super().__init__()
@@ -82,7 +83,28 @@ class EizoukenDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            story_json = self.get_json(self.STORY_DATA_JSON)
+            story_data = story_json['data']
+            for data in story_data:
+                name = data['name']
+                episode_num = name.split('.html')[0]
+                try:
+                    temp = int(episode_num)
+                except:
+                    continue
+                episode = episode_num.zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_01.jpg"):
+                    continue
+                html = data['html']
+                split1 = html.split('<img src="')
+                for i in range(1, len(split1), 1):
+                    imageUrl = self.PAGE_PREFIX + split1[i].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(i).zfill(2)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Gotoubun no Hanayome 2
 class Gotoubun2Download(Winter2020AnimeDownload):
