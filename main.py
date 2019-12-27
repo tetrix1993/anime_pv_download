@@ -53,6 +53,7 @@ def download_fall_2018_anime():
     downloads.append(KishukuJulietDownload())
     downloads.append(MercStoriaDownload())
     downloads.append(ReleaseTheSpyceDownload())
+    downloads.append(SoraumiDownload())
     
     process_download(downloads)
 

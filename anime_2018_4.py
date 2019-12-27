@@ -382,6 +382,39 @@ class ReleaseTheSpyceDownload(Fall2018AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Sora to Umi no Aida
+class SoraumiDownload(Fall2018AnimeDownload):
+    
+    PAGE_PREFIX = "http://soraumi-anime.com/story/"
+    PAGE_SUFFIX = "/"
+    FINAL_EPISODE = 12
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/soraumi"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        for i in range(self.FINAL_EPISODE):
+            episode = str(i+1).zfill(2)
+            if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
+                    continue
+            try:
+                page_url = self.PAGE_PREFIX + episode + self.PAGE_SUFFIX
+                response = self.get_response(page_url)
+                split1 = response.split('<div class="story_img">')
+                if len(split1) < 2:
+                    continue
+                split2 = split1[1].split('</ul>')[0].split('<img src="')
+                for j in range(1, len(split2), 1):
+                    imageUrl = split2[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+            except Exception as e:
+                print("Error in running " + self.__class__.__name__)
+                print(e)
+
 # Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai
 class AobutaDownload(Fall2018AnimeDownload):
     
