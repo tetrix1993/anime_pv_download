@@ -326,6 +326,34 @@ class MercStoriaDownload(Fall2018AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Ore ga Suki nano wa Imouto dakedo Imouto ja Nai
+class ImoimoDownload(Fall2018AnimeDownload):
+
+    STORY_PAGE = "http://imo-imo.jp/story/"
+    IMAGE_PREFIX = "http://imo-imo.jp/assets/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/imoimo"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<div class="mg5r cs"')
+            for i in range(1, len(split1), 1):
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
+                    continue
+                for j in range(6):
+                    imageUrl = self.IMAGE_PREFIX + str(i) + "_" + str(j+1) + ".jpg"
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j+1)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai
 class AobutaDownload(Fall2018AnimeDownload):
     
