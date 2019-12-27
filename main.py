@@ -45,6 +45,7 @@ def download_fall_2018_anime():
     downloads.append(AkanesasuShoujoDownload())
     downloads.append(AnimaYellDownload())
     downloads.append(AobutaDownload())
+    downloads.append(BeelmamaDownload())
     downloads.append(KishukuJulietDownload())
     
     process_download(downloads)
