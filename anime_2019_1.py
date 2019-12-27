@@ -282,4 +282,34 @@ class MiniTojiDownload(Winter2019AnimeDownload):
         except Exception as e:
             print("Error in running " + self.__class__.__name__)
             print(e)  
+
+class TateNoYuushaDownload(Winter2019AnimeDownload):
+    
+    PAGE_PREFIX = "http://shieldhero-anime.jp"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/tate-no-yuusha"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.PAGE_PREFIX)
+            split1 = response.split('<article class="p-intro">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</article>')[0].split('<div class="main">')
+            for i in range(1, len(split2), 1):
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
+                    continue
+                split3 = split2[i].split('</div>')[0].split('<img src="')
+                for j in range(1, len(split3), 1):
+                    imageUrl = self.PAGE_PREFIX + split3[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e) 
     
