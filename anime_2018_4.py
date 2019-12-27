@@ -141,10 +141,25 @@ class GoblinSlayerDownload(Fall2018AnimeDownload):
                 return
             split2 = split1[1].split('</ul>')[0].split('<a href="')
             for i in range(len(split2) - 1, 0, -1):
-                episode = str(len(split2) - i).zfill(2)
+                page_url = split2[i].split('"')[0]
+                split3 = page_url.split('/')
+                if len(split3) < 2:
+                    continue
+                episode = ""
+                temp1 = split3[len(split3) - 1].split('episode')
+                if len(temp1) < 2:
+                    continue
+                temp2 = temp1[1]
+                if temp2 == '_special':
+                    episode = 'sp'
+                else:
+                    try:
+                        temp3 = int(temp2)
+                    except:
+                        continue
+                    episode = temp2
                 if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
                     continue
-                page_url = split2[i].split('"')[0]
                 page_response = self.get_response(page_url)
                 split4 = page_response.split('<ul class="bxslider">')
                 if len(split4) < 2:
@@ -152,6 +167,43 @@ class GoblinSlayerDownload(Fall2018AnimeDownload):
                 split5 = split4[1].split('</ul>')[0].split('<img src="')
                 for j in range(1, len(split5), 1):
                     imageUrl = split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
+# Hangyakusei Million Arthur
+class HangyakuseiMillionArthurDownload(Fall2018AnimeDownload):
+    
+    PAGE_PREFIX = "http://hangyakusei-anime.com/"
+    STORY_PAGE = "http://hangyakusei-anime.com/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/hangyakusei"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<table summary="List_Type01">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</table>')[0].split('<a href="../')
+            for i in range(1, len(split2), 1):
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.PAGE_PREFIX + split2[i].split('"')[0]
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<div class="block line_01">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('<div class="block line_02">')[0].split('<img src="../')
+                for j in range(1, len(split5), 1):
+                    imageUrl = self.PAGE_PREFIX + split5[j].split('"')[0]
                     filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
                     self.download_image(imageUrl, filepathWithoutExtension)
         except Exception as e:
