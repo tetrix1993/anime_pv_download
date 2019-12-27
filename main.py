@@ -56,6 +56,7 @@ def download_fall_2018_anime():
     downloads.append(ReleaseTheSpyceDownload())
     downloads.append(SoraumiDownload())
     downloads.append(SsssGridmanDownload())
+    downloads.append(TensuraDownload())
     downloads.append(TonariNoKyuuketsukiSanDownload())
     downloads.append(UlyssesDownload())
     downloads.append(UzamaidDownload())
