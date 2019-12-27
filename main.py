@@ -56,6 +56,7 @@ def download_fall_2018_anime():
     downloads.append(SoraumiDownload())
     downloads.append(SsssGridmanDownload())
     downloads.append(TonariNoKyuuketsukiSanDownload())
+    downloads.append(UlyssesDownload())
     downloads.append(UzamaidDownload())
     
     process_download(downloads)
