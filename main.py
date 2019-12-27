@@ -4,6 +4,7 @@ from main_download import MainDownload
 from external_download import AniverseMagazineDownload
 from external_download import MocaNewsDownload
 from external_download import WebNewtypeDownload
+from anime_2018_4 import *
 from anime_2019_1 import *
 from anime_2019_2 import *
 from anime_2019_3 import *
@@ -25,6 +26,13 @@ def process_download(downloads):
         process.join()
     
     print("Download completed")
+
+def download_fall_2018_anime():
+    downloads = []
+    
+    downloads.append(AobutaDownload())
+    
+    process_download(downloads)
 
 def download_winter_2019_anime():
     downloads = []
@@ -211,9 +219,12 @@ def download_winter_2020_anime():
     process_download(downloads)
 
 if __name__ == '__main__':
+    download_fall_2018_anime()
+    
     #download_winter_2019_anime()
     #download_spring_2019_anime()
     #download_summer_2019_anime()
     download_fall_2019_anime()
+    
     download_winter_2020_anime()
 
