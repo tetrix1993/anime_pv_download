@@ -10,6 +10,43 @@ class Fall2018AnimeDownload(MainDownload):
         if not os.path.exists(self.base_folder):
             os.makedirs(self.base_folder)
 
+# Akanesasu Shoujo
+class AkanesasuShoujoDownload(Fall2018AnimeDownload):
+    
+    PAGE_PREFIX = "http://akanesasushojo.com/"
+    STORY_PAGE = "http://akanesasushojo.com/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/akanesasu-shoujo"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<table summary="List_Type01">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</table>')[0].split('<a href="../')
+            for i in range(2, len(split2), 1):
+                episode = str(i-1).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.PAGE_PREFIX + split2[i].split('"')[0]
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<div class="block line_02">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('<div id="ext_area_02">')[0].split('<img src="../')
+                for j in range(1, len(split5), 1):
+                    imageUrl = self.PAGE_PREFIX + split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Kishuku Gakkou no Juliet
 class KishukuJulietDownload(Fall2018AnimeDownload):
     

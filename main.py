@@ -42,6 +42,7 @@ def process_download_function(fns):
 def download_fall_2018_anime():
     downloads = []
     
+    downloads.append(AkanesasuShoujoDownload())
     downloads.append(AobutaDownload())
     downloads.append(KishukuJulietDownload())
     
