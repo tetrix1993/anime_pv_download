@@ -479,4 +479,38 @@ class AobutaDownload(Fall2018AnimeDownload):
         except Exception as e:
             print("Error in running " + self.__class__.__name__)
             print(e)
+
+# Tonari no Kyuuketsuki-san
+class TonariNoKyuuketsukiSanDownload(Fall2018AnimeDownload):
+    
+    STORY_PAGE = "http://kyuketsukisan-anime.com/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/tonari-no-kyuuketsuki-san"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<section class="storyNavi">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</ul>')[0].split('<a href="')
+            for i in range(1, len(split2), 1):
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
+                    continue
+                page_url = split2[i].split('"')[0]
+                page_response = self.get_response(page_url)
+                split3 = page_response.split('data-src="')
+                for j in range(1, len(split3), 1):
+                    imageUrl = split3[j].split('"')[0].replace('-810x456.jpg','.jpg')
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+    
     
