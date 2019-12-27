@@ -15,6 +15,10 @@ def run_process(download):
     print("Running " + download.__class__.__name__ + " (" + str(os.getpid()) + ")")
     download.run()
 
+def run_process_function(fn):
+    print("Running " + fn.__name__ + " (" + str(os.getpid()) + ")")
+    fn()
+
 def process_download(downloads):
     processes = []
     for download in downloads:
@@ -24,8 +28,16 @@ def process_download(downloads):
     
     for process in processes:
         process.join()
+
+def process_download_function(fns):
+    processes = []
+    for fn in fns:
+        process = Process(target=run_process_function, args=(fn,))
+        processes.append(process)
+        process.start()
     
-    print("Download completed")
+    for process in processes:
+        process.join()
 
 def download_fall_2018_anime():
     downloads = []
@@ -219,8 +231,21 @@ def download_winter_2020_anime():
     
     process_download(downloads)
 
+def download_all():
+    fns = []
+    fns.append(download_fall_2018_anime)
+    fns.append(download_winter_2019_anime)
+    fns.append(download_spring_2019_anime)
+    fns.append(download_summer_2019_anime)
+    fns.append(download_fall_2019_anime)
+    fns.append(download_winter_2020_anime)
+    
+    process_download_function(fns)
+
 if __name__ == '__main__':
-    download_fall_2018_anime()
+    #download_all()
+    
+    #download_fall_2018_anime()
     
     #download_winter_2019_anime()
     #download_spring_2019_anime()
@@ -228,4 +253,6 @@ if __name__ == '__main__':
     download_fall_2019_anime()
     
     download_winter_2020_anime()
+    
+    print("Download completed")
 
