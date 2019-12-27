@@ -31,6 +31,7 @@ def download_winter_2019_anime():
     
     downloads.append(CircletPrincessDownload())
     downloads.append(DateALive3Download())
+    downloads.append(DomeKanoDownload())
     downloads.append(EgaoNoDaikaDownload())
     downloads.append(EndroDownload())
     downloads.append(GirlyAirForceDownload())
