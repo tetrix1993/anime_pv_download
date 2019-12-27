@@ -93,6 +93,7 @@ def download_fall_2019_anime():
     #downloads.append(HiScoreGirl2Download())
     #downloads.append(HonzukiDownload())
     #downloads.append(IrumaKunDownload())
+    downloads.append(KandagawaJetGirlsDownload())
     #downloads.append(KemonomichiDownload())
     #downloads.append(NoukinDownload())
     #downloads.append(NullPetaDownload())
