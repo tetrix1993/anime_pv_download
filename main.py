@@ -35,6 +35,7 @@ def download_winter_2019_anime():
     downloads.append(GotoubunDownload())
     downloads.append(KaguyasamaDownload())
     downloads.append(MahouShoujoTokushusenAsukaDownload())
+    downloads.append(MiniTojiDownload())
     
     process_download(downloads)
 
