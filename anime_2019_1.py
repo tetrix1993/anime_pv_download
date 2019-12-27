@@ -10,6 +10,52 @@ class Winter2019AnimeDownload(MainDownload):
         if not os.path.exists(self.base_folder):
             os.makedirs(self.base_folder)
 
+# Circlet Princess
+class CircletPrincessDownload(Winter2019AnimeDownload):
+    
+    STORY_PAGE = "https://cirpri-anime.jp/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/circlet-princess"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<section>')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</section>')[0].split('<a href="')
+            for i in range(len(split2) - 1, 0, -1):
+                split3 = split2[i].split('<span>#')
+                if len(split3) < 2:
+                    continue
+                ep_num = split3[1].split('</span>')[0]
+                episode = ""
+                try:
+                    temp = int(ep_num)
+                except:
+                    continue
+                episode = ep_num.zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_01.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_01.png"):
+                    continue
+                page_url = split2[i].split('"')[0]
+                page_response = self.get_response(page_url)
+                split3 = page_response.split('<div id="slider" class="swiper-container">')
+                if len(split3) < 2:
+                    continue
+                split4 = split3[1].split('<div id="thumbs"')[0].split('<img src="')
+                for j in range(1, len(split4), 1):
+                    imageUrl = split4[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j).zfill(2)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
+# Date A Live III
 class DateALive3Download(Winter2019AnimeDownload):
     
     FINAL_EPISODE = 12
@@ -250,6 +296,7 @@ class KaguyasamaDownload(Winter2019AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Mahou Shoujo Tokushusen Asuka
 class MahouShoujoTokushusenAsukaDownload(Winter2019AnimeDownload):
     
     PAGE_PREFIX = "http://magical-five.jp/"
@@ -280,6 +327,7 @@ class MahouShoujoTokushusenAsukaDownload(Winter2019AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)    
 
+# Mini Toji
 class MiniTojiDownload(Winter2019AnimeDownload):
     
     PAGE_PREFIX = "http://minitoji.jp/"
@@ -316,6 +364,7 @@ class MiniTojiDownload(Winter2019AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)  
 
+# Tate no Yuusha no Nariagari
 class TateNoYuushaDownload(Winter2019AnimeDownload):
     
     PAGE_PREFIX = "http://shieldhero-anime.jp"
@@ -345,7 +394,8 @@ class TateNoYuushaDownload(Winter2019AnimeDownload):
         except Exception as e:
             print("Error in running " + self.__class__.__name__)
             print(e) 
-    
+
+# Watashi ni Tenshi ga Maiorita!
 class WatatenDownload(Winter2019AnimeDownload):
     
     PAGE_PREFIX = "http://watatentv.com/"
