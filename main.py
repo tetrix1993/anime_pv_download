@@ -54,6 +54,7 @@ def download_fall_2018_anime():
     downloads.append(MercStoriaDownload())
     downloads.append(ReleaseTheSpyceDownload())
     downloads.append(SoraumiDownload())
+    downloads.append(SsssGridmanDownload())
     
     process_download(downloads)
 
