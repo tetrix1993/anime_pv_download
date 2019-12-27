@@ -29,6 +29,7 @@ def process_download(downloads):
 def download_winter_2019_anime():
     downloads = []
     
+    downloads.append(DateALive3Download())
     downloads.append(EgaoNoDaikaDownload())
     downloads.append(EndroDownload())
     downloads.append(GirlyAirForceDownload())

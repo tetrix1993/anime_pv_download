@@ -10,6 +10,39 @@ class Winter2019AnimeDownload(MainDownload):
         if not os.path.exists(self.base_folder):
             os.makedirs(self.base_folder)
 
+class DateALive3Download(Winter2019AnimeDownload):
+    
+    FINAL_EPISODE = 12
+    IMAGE_PREFIX = "http://date-a-live-anime.com/story/"
+    PAGE_PREFIX = "http://date-a-live-anime.com/story/episode"
+    PAGE_SUFFIX = ".html"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/date-a-live-3"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        try:
+            for i in range(1, self.FINAL_EPISODE + 1, 1):
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.PAGE_PREFIX + episode + self.PAGE_SUFFIX
+                page_response = self.get_response(page_url)
+                split1 = page_response.split('<div class="vthumbox">')
+                if len(split1) < 2:
+                    continue
+                split2 = split1[1].split('</div>')[0].split('<img src="')
+                for j in range(1, len(split2), 1):
+                    imageUrl = self.IMAGE_PREFIX + split2[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Egao no Daika
 class EgaoNoDaikaDownload(Winter2019AnimeDownload):
     
