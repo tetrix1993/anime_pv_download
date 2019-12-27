@@ -50,6 +50,7 @@ def download_fall_2018_anime():
     downloads.append(HangyakuseiMillionArthurDownload())
     downloads.append(IrodukuDownload())
     downloads.append(KishukuJulietDownload())
+    downloads.append(MercStoriaDownload())
     
     process_download(downloads)
 

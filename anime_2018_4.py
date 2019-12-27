@@ -279,6 +279,53 @@ class KishukuJulietDownload(Fall2018AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Merc Storia: Mukiryoku no Shounen to Bin no Naka no Shoujo
+class MercStoriaDownload(Fall2018AnimeDownload):
+    
+    PAGE_PREFIX = "http://www.mercstoria.jp/"
+    STORY_PAGE = "http://www.mercstoria.jp/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/merc-storia"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<h3>')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</ul>')[0].split('<a href="')
+            for i in range(len(split2) - 1, 0, -1):
+                page_url = split2[i].split('"')[0]
+                split3 = page_url.split('episode')
+                if len(split3) < 2:
+                    continue
+                episode = ""
+                temp1 = split3[1].split('.html')[0]
+                try:
+                    temp2 = int(temp1)
+                except:
+                    continue
+                episode = temp1
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.STORY_PAGE + page_url
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<ul class="bxslider">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('</ul>')[0].split('<img src="')
+                for j in range(1, len(split5), 1):
+                    imageUrl = self.STORY_PAGE + split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai
 class AobutaDownload(Fall2018AnimeDownload):
     
