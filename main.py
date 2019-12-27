@@ -37,6 +37,7 @@ def download_winter_2019_anime():
     downloads.append(MahouShoujoTokushusenAsukaDownload())
     downloads.append(MiniTojiDownload())
     downloads.append(TateNoYuushaDownload())
+    downloads.append(WatatenDownload())
     
     process_download(downloads)
 
