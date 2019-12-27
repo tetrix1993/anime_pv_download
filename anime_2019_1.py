@@ -364,6 +364,62 @@ class MiniTojiDownload(Winter2019AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)  
 
+# Pastel Memories
+class PastelMemoriesDownload(Winter2019AnimeDownload):
+    
+    STORY_PAGE = "https://pasumemotv.com/story"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/pastel-memories"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    # Episode 2 is banned, but the images remained on server
+    def download_episode2(self):
+        if self.is_file_exists(self.base_folder + "/02_1.jpg"):
+            return
+        imageUrlPrefix = 'https://pasumemotv.com/wp-content/uploads/2019/01/02_'
+        imageUrlSuffix = '.jpg'
+        for i in range(1, 6, 1):
+            imageUrl = imageUrlPrefix + str(i).zfill(2) + imageUrlSuffix
+            filepathWithoutExtension = self.base_folder + "/02_" + str(i)
+            self.download_image(imageUrl, filepathWithoutExtension)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<ul class="story-nav__body">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</ul>')[0].split('<a href="')
+            self.download_episode2()
+            for i in range(1, len(split2), 1):
+                page_url = split2[i].split('"')[0]
+                split3 = page_url.split('/story/')
+                if len(split3) < 2:
+                    continue
+                episode_temp = split3[1].split('/')[0]
+                try:
+                    temp = int(episode_temp)
+                except:
+                    continue
+                episode = episode_temp.zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
+                    continue
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<ul class="story-scenes--list">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('</ul>')[0].split('<img src="')
+                for j in range(1, len(split5), 1):
+                    imageUrl = split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e) 
+
 # Tate no Yuusha no Nariagari
 class TateNoYuushaDownload(Winter2019AnimeDownload):
     
