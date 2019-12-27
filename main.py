@@ -35,6 +35,7 @@ def download_winter_2019_anime():
     downloads.append(EndroDownload())
     downloads.append(GirlyAirForceDownload())
     downloads.append(GotoubunDownload())
+    downloads.append(GrimmsNotesDownload())
     downloads.append(KaguyasamaDownload())
     downloads.append(MahouShoujoTokushusenAsukaDownload())
     downloads.append(MiniTojiDownload())
