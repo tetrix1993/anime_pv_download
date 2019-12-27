@@ -354,6 +354,34 @@ class ImoimoDownload(Fall2018AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Release the Spyce
+class ReleaseTheSpyceDownload(Fall2018AnimeDownload):
+
+    IMAGE_PREFIX = "https://releasethespyce.jp/story/img/"
+    FINAL_EPISODE = 12
+    IMAGES_PER_EPISODE = 4
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/release-the-spyce"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        try:
+            for i in range(self.FINAL_EPISODE):
+                episode = str(i+1).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
+                    continue
+                for j in range(self.IMAGES_PER_EPISODE):
+                    imageNum = str(j+1).zfill(2)
+                    imageUrl = self.IMAGE_PREFIX + episode + "/" + episode + "_" + imageNum + ".jpg"
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j+1)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai
 class AobutaDownload(Fall2018AnimeDownload):
     
