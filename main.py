@@ -31,6 +31,7 @@ def download_fall_2018_anime():
     downloads = []
     
     downloads.append(AobutaDownload())
+    downloads.append(KishukuJulietDownload())
     
     process_download(downloads)
 

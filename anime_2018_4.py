@@ -10,6 +10,46 @@ class Fall2018AnimeDownload(MainDownload):
         if not os.path.exists(self.base_folder):
             os.makedirs(self.base_folder)
 
+# Kishuku Gakkou no Juliet
+class KishukuJulietDownload(Fall2018AnimeDownload):
+    
+    PAGE_PREFIX = "https://www.juliet-anime.com/"
+    STORY_PAGE = "https://www.juliet-anime.com/story/index.html"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/kishuku-juliet"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<div id="cms_block">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('<div class="main_sa08">')[0].split('<div class="nwu_box">')
+            for i in range(len(split2) - 1, 0, -1):
+                episode = str(len(split2) - i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                split3 = split2[i].split('<a href="../')
+                if len(split3) < 2:
+                    continue
+                page_url = self.PAGE_PREFIX + split3[1].split('"')[0]
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<div class="block line_01">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('<div class="block line_02">')[0].split('<img src="../')
+                for j in range(1, len(split5), 1):
+                    imageUrl = self.PAGE_PREFIX + split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Seishun Buta Yarou wa Bunny Girl Senpai no Yume wo Minai
 class AobutaDownload(Fall2018AnimeDownload):
     
