@@ -46,6 +46,7 @@ def download_fall_2018_anime():
     downloads.append(AnimaYellDownload())
     downloads.append(AobutaDownload())
     downloads.append(BeelmamaDownload())
+    downloads.append(ConceptionDownload())
     downloads.append(GoblinSlayerDownload())
     downloads.append(HangyakuseiMillionArthurDownload())
     downloads.append(ImoimoDownload())

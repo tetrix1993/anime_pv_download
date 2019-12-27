@@ -121,6 +121,39 @@ class BeelmamaDownload(Fall2018AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Conception
+class ConceptionDownload(Fall2018AnimeDownload):
+
+    PAGE_LINK = "http://conception-anime.com/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/conception"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.PAGE_LINK)
+            split1 = response.split('<div id="slideshow')
+            for i in range(1, len(split1), 1):
+                episode_temp = split1[i].split('"')[0]
+                try:
+                    temp = int(episode_temp)
+                except:
+                    continue
+                episode = episode_temp.zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                split2 = split1[i].split('<ul class="clearfix">')[0].split('<img src="')
+                for j in range(1, len(split2), 1):
+                    imageUrl = split2[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Goblin Slayer
 class GoblinSlayerDownload(Fall2018AnimeDownload):
 
