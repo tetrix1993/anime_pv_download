@@ -34,6 +34,7 @@ def download_winter_2019_anime():
     downloads.append(GirlyAirForceDownload())
     downloads.append(GotoubunDownload())
     downloads.append(KaguyasamaDownload())
+    downloads.append(MahouShoujoTokushusenAsukaDownload())
     
     process_download(downloads)
 
@@ -81,7 +82,7 @@ def download_summer_2019_anime():
 def download_fall_2019_anime():
     downloads = []
     
-    downloads.append(AssassinsPrideDownload())
+    #downloads.append(AssassinsPrideDownload())
     downloads.append(Bokuben2Download())
     #downloads.append(ChoyoyuDownload())
     #downloads.append(HiScoreGirl2Download())
