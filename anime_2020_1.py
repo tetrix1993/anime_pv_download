@@ -4,20 +4,20 @@ from main_download import MainDownload
 # Darwin's Game https://darwins-game.com/story/ #Dゲーム @d_game_official [WED]
 # Eizouken http://eizouken-anime.com/story/ #映像研 @Eizouken_anime [THU]
 # Gotoubun no Hanayome http://www.tbs.co.jp/anime/5hanayome/ #五等分の花嫁 @5Hanayome
-# Hatena Illusion http://hatenaillusion-anime.com/ #はてなイリュージョン #hatenaillusion @hatena_anime
+# Hatena Illusion http://hatenaillusion-anime.com/ #はてなイリュージョン #hatenaillusion @hatena_anime [SAT]
 # Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [WED]
 # Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime
 # Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet
 # Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku
 # Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime
 # Jibaku Shounen Hanako-kun https://www.tbs.co.jp/anime/hanakokun/story/ #花子くん #花子くんアニメ @hanakokun_info
-# Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス @koiastv [SUN]
+# Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス #恋する小惑星 @koiastv [SUN]
 # Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri
 # Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [TUE]
-# Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime
+# Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime [FRI]
 # Plunderer http://plunderer-info.com/ #プランダラ @plundereranime
 # Rikekoi https://rikekoi.com/story #リケ恋 @rikeigakoini
-# Somali https://somali-anime.com/ #ソマリと森の神様 @somali_anime
+# Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime
 # Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project
 
 # Winter 2020 Anime
@@ -159,6 +159,10 @@ class Gotoubun2Download(Winter2020AnimeDownload):
 class HatenaIllusionDownload(Winter2020AnimeDownload):
 
     PAGE_PREFIX = "http://hatenaillusion-anime.com/"
+    STORY_PAGE = "http://hatenaillusion-anime.com/story.html"
+    
+    CHAR_DAI = "\\xe7\\xac\\xac" #第
+    CHAR_WA = "\\xe8\\xa9\\xb1" #話
     
     def __init__(self):
         super().__init__()
@@ -167,7 +171,40 @@ class HatenaIllusionDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<ul class="episode_list">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</ul>')[0].split('<li')
+            for i in range(1, len(split2), 1):
+                split3 = split2[i].split('</h2>')[0].split('<h2 class="story_ttl">' + self.CHAR_DAI)
+                if len(split3) < 2:
+                    continue
+                episode_temp = split3[1].split(self.CHAR_WA)[0]
+                episode = 0
+                try:
+                    temp = int(episode_temp)
+                except:
+                    print("Error in running " + self.__class__.__name__)
+                    print("Expected integer. Actual: " + episode_temp)
+                    print("At i = " + str(i))
+                    continue
+                episode = episode_temp.zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                split4 = split2[i].split('<img')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('src="./')
+                if len(split5) < 2:
+                    continue
+                imageUrl = self.PAGE_PREFIX + split5[1].split('"')[0]
+                filepathWithoutExtension = self.base_folder + "/" + episode + "_1"
+                self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Heya Camp
 class HeyaCampDownload(Winter2020AnimeDownload):
@@ -424,7 +461,9 @@ class MurenaseSetonGakuenDownload(Winter2020AnimeDownload):
 
 # Nekopara
 class NekoparaDownload(Winter2020AnimeDownload):
-
+    
+    TEMP = "https://nekopara-anime.com/ja/php/avex/api.php?mode=46&id=1000682"
+    
     PAGE_PREFIX = "https://nekopara-anime.com/ja/story/"
     
     def __init__(self):
