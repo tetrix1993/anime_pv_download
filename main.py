@@ -128,7 +128,7 @@ def download_fall_2019_anime():
     downloads = []
     
     #downloads.append(AssassinsPrideDownload())
-    downloads.append(Bokuben2Download())
+    #downloads.append(Bokuben2Download())
     #downloads.append(ChoyoyuDownload())
     #downloads.append(HiScoreGirl2Download())
     #downloads.append(HonzukiDownload())
@@ -140,7 +140,7 @@ def download_fall_2019_anime():
     #downloads.append(OresukiDownload())
     downloads.append(RifleIsBeautifulDownload())
     #downloads.append(SaikoroDownload())
-    downloads.append(ShinchouYuushaDownload())
+    #downloads.append(ShinchouYuushaDownload())
     #downloads.append(ValLoveDownload())
     
     #downloads.append(WebNewtypeDownload("208294", "2019-4/assassins-pride_wnt", 1))

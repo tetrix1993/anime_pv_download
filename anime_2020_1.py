@@ -9,7 +9,7 @@ from main_download import MainDownload
 # Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime
 # Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet
 # Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku
-# Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime
+# Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime [WED]
 # Jibaku Shounen Hanako-kun https://www.tbs.co.jp/anime/hanakokun/story/ #花子くん #花子くんアニメ @hanakokun_info
 # Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス #恋する小惑星 @koiastv [SUN]
 # Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri
@@ -345,6 +345,9 @@ class IshuzokuReviewersDownload(Winter2020AnimeDownload):
 class BofuriDownload(Winter2020AnimeDownload):
 
     PAGE_PREFIX = "https://bofuri.jp/"
+    STORY_PAGE = "https://bofuri.jp/story/"
+    EPISODE_PAGE = "https://bofuri.jp/story/episode.html"
+    FINAL_EPISODE = 12
     
     def __init__(self):
         super().__init__()
@@ -353,7 +356,23 @@ class BofuriDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.EPISODE_PAGE)
+            for i in range(1, self.FINAL_EPISODE + 1, 1):
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                split1 = response.split('<div class="episode-data" id="EP' + str(i) + '"')
+                if len(split1) < 2:
+                    continue
+                split2 = split1[1].split('<div class="ep-staff">')[0].split('<img src="../')
+                for j in range(1, len(split2), 1):
+                    imageUrl = self.PAGE_PREFIX + split2[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Jibaku Shounen Hanako-kun
 class HanakoKunDownload(Winter2020AnimeDownload):
