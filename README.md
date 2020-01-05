@@ -17,7 +17,9 @@ pip install requests
 ## Running the Program
 1. Using the Command Prompt (Terminal for MacOS), change to the directory to where the file `run.py` is located.
 2. Open `run.py` with a plain text editor (e.g. Notepad) and uncomment (remove the first '#') all the anime you want to download (see picture):
-![example.png](/images/example.png)
+![example1.png](/images/example1.png)
 3. Once you uncomment all the anime you wanted to download, save it.
 4. Going back to the Command Prompt (or Terminal), run the following command: `python run.py`
+![example2.png](/images/example2.png)
 5. The images will be saved at the folder `download`.
+![example3.jpg](/images/example3.jpg)
