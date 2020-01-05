@@ -4,7 +4,7 @@ from main_download import MainDownload
 # Darwin's Game https://darwins-game.com/story/ #Dゲーム @d_game_official [WED]
 # Eizouken http://eizouken-anime.com/story/ #映像研 @Eizouken_anime [THU]
 # Gotoubun no Hanayome http://www.tbs.co.jp/anime/5hanayome/ #五等分の花嫁 @5Hanayome
-# Hatena Illusion http://hatenaillusion-anime.com/ #はてなイリュージョン #hatenaillusion @hatena_anime [SAT]
+# Hatena Illusion http://hatenaillusion-anime.com/story.html #はてなイリュージョン #hatenaillusion @hatena_anime [SAT]
 # Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [WED]
 # Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime
 # Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet
@@ -18,7 +18,7 @@ from main_download import MainDownload
 # Plunderer http://plunderer-info.com/ #プランダラ @plundereranime
 # Rikekoi https://rikekoi.com/story #リケ恋 @rikeigakoini
 # Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime
-# Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project
+# Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project [SUN]
 
 # Winter 2020 Anime
 class Winter2020AnimeDownload(MainDownload):
@@ -536,8 +536,9 @@ class SomaliDownload(Winter2020AnimeDownload):
 
 # Toaru Kagaku no Railgun T
 class RailgunTDownload(Winter2020AnimeDownload):
-
-    PAGE_PREFIX = "https://toaru-project.com/railgun_t/story/"
+    
+    PAGE_PREFIX = "https://toaru-project.com/railgun_t/"
+    STORY_PAGE = "https://toaru-project.com/railgun_t/story/"
     
     def __init__(self):
         super().__init__()
@@ -546,4 +547,34 @@ class RailgunTDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<table summary="List_Type01">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</table>')[0].split('<a href="../')
+            for i in range(len(split2) - 2, 0, -1):
+                page_url = self.PAGE_PREFIX + split2[i].split('"')[0]
+                split3 = page_url.split('.html')[0]
+                episode = ''
+                if len(split3) < 2:
+                    continue
+                try:
+                    episode_num = int(split3[-2:])
+                    episode = str(episode_num).zfill(2)
+                except:
+                    continue
+                if (self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png")):
+                    continue
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<ul class="tp5">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('</ul>')[0].split('<a href="../')
+                for j in range(1, len(split5), 1):
+                    imageUrl = self.PAGE_PREFIX + split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
