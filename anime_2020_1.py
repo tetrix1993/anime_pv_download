@@ -16,7 +16,7 @@ from main_download import MainDownload
 # Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [TUE]
 # Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime [FRI]
 # Plunderer http://plunderer-info.com/ #プランダラ @plundereranime
-# Rikekoi https://rikekoi.com/story #リケ恋 @rikeigakoini
+# Rikekoi https://rikekoi.com/story #リケ恋 #りけこい #rikekoi @rikeigakoini [MON]
 # Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime
 # Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project [SUN]
 
@@ -511,7 +511,8 @@ class PlundererDownload(Winter2020AnimeDownload):
 # Rikei ga Koi ni Ochita no de Shoumei shitemita.
 class RikekoiDownload(Winter2020AnimeDownload):
 
-    PAGE_PREFIX = "https://rikekoi.com/story"
+    PAGE_PREFIX = "https://rikekoi.com"
+    STORY_PAGE = "https://rikekoi.com/story/1"
     
     def __init__(self):
         super().__init__()
@@ -520,7 +521,57 @@ class RikekoiDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.STORY_PAGE, decode=True)
+            split1 = response.split('<div class="story-link-item this-page">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('<u class="red-marker">')[0].split('<a href="')
+            for i in range(1, len(split2), 1):
+                page_url = self.PAGE_PREFIX + split2[i].split('"')[0]
+                episode = ''
+                try:
+                    split3 = page_url.split('/')
+                    if len(split3) < 2:
+                        continue
+                    episode_temp = int(split3[len(split3) - 1])
+                except:
+                    continue
+                episode = str(episode_temp).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                if episode_temp == 1:
+                    page_response = response
+                else:
+                    page_response = self.get_response(page_url, decode=True)
+                imageUrls = []
+                
+                # First image
+                split4 = page_response.split('<figure class="wp-block-image"><a href="')
+                if len(split4) < 2:
+                    continue
+                firstImageUrl = split4[1].split('</figure>')[0].split('"')[0]
+                
+                # Other images
+                split5 = page_response.split('<ul class="wp-block-gallery columns-5 is-cropped">')
+                if len(split5) < 2:
+                    continue
+                split6 = split5[1].split('</ul>')[0].split('<a href="')
+                for j in range(1, len(split6), 1):
+                    imageUrl = split6[j].split('"')[0]
+                    imageUrls.append(imageUrl)
+                
+                firstImageUrlReplaced = firstImageUrl.replace('-1024x576','')
+                filepathWithoutExtension = self.base_folder + "/" + episode + "_1"
+                self.download_image(firstImageUrlReplaced, filepathWithoutExtension)
+                
+                for k in range(len(imageUrls)):
+                    imageUrl = imageUrls[k].replace('-1024x576','')
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(k+2)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 class SomaliDownload(Winter2020AnimeDownload):
     PAGE_PREFIX = "https://somali-anime.com/"
