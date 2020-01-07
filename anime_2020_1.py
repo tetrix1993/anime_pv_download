@@ -8,14 +8,14 @@ from main_download import MainDownload
 # Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [WED]
 # Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime
 # Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet
-# Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku
+# Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku [TUE]
 # Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime [WED]
 # Jibaku Shounen Hanako-kun https://www.tbs.co.jp/anime/hanakokun/story/ #花子くん #花子くんアニメ @hanakokun_info
-# Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス #恋する小惑星 @koiastv [SUN]
+# Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス #恋する小惑星 @koiastv [TUE]
 # Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri
 # Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [TUE]
 # Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime [FRI]
-# Plunderer http://plunderer-info.com/ #プランダラ @plundereranime
+# Plunderer http://plunderer-info.com/ #プランダラ @plundereranime [TUE]
 # Rikekoi https://rikekoi.com/story #リケ恋 #りけこい #rikekoi @rikeigakoini [MON]
 # Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime
 # Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project [SUN]
@@ -331,6 +331,9 @@ class IsekaiQuartet2Download(Winter2020AnimeDownload):
 # Ishuzoku Reviewers
 class IshuzokuReviewersDownload(Winter2020AnimeDownload):
     PAGE_PREFIX = "https://isyuzoku.com/"
+    STORY_PAGE = "https://isyuzoku.com/story/"
+    CHAR_DAI = "\\xe7\\xac\\xac" #第
+    CHAR_WA = "\\xe8\\xa9\\xb1" #話
     
     def __init__(self):
         super().__init__()
@@ -339,7 +342,42 @@ class IshuzokuReviewersDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<div id="StoryData">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('<div id="S_itl1">')[0].split('<div id="S_')
+            for i in range(1, len(split2), 1):
+                split3 = split2[i].split('<h2 class="ep-title">')
+                if len(split3) < 2:
+                    continue
+                split4 = split3[1].split('</span>')[0]
+                if self.CHAR_DAI in split4 and self.CHAR_WA in split4:
+                    split5 = split4.split(self.CHAR_WA)[0].split(self.CHAR_DAI)
+                    if len(split5) < 2:
+                        continue
+                else:
+                    continue
+                episode = ''
+                try:
+                    episode_temp = int(split5[1])
+                    episode = str(episode_temp).zfill(2)
+                except:
+                    continue
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                split6 = split2[i].split('<div class="ep-slider-sceneImage">')
+                if len(split6) < 2:
+                    continue
+                split7 = split6[1].split('<div class="ep-slider-thumb">')[0].split('<img src="../')
+                for j in range(1, len(split7), 1):
+                    imageUrl = self.PAGE_PREFIX + split7[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu.
 class BofuriDownload(Winter2020AnimeDownload):
