@@ -498,6 +498,8 @@ class NekoparaDownload(Winter2020AnimeDownload):
 class PlundererDownload(Winter2020AnimeDownload):
 
     PAGE_PREFIX = "http://plunderer-info.com/"
+    CHAR_DAI = "\\xe7\\xac\\xac" #第
+    CHAR_WA = "\\xe8\\xa9\\xb1" #話
     
     def __init__(self):
         super().__init__()
@@ -506,7 +508,36 @@ class PlundererDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.PAGE_PREFIX)
+            split1 = response.split('<h1 class="news_ttl">')
+            for i in range(1, len(split1), 1):
+                split2 = split1[i].split('</h1>')[0]
+                if self.CHAR_DAI in split2 and self.CHAR_WA in split2:
+                    split3 = split2.split(self.CHAR_WA)[0].split(self.CHAR_DAI)
+                    if len(split3) < 2:
+                        continue
+                else:
+                    continue
+                episode = ''
+                try:
+                    episode_temp = int(split3[1])
+                    episode = str(episode_temp).zfill(2)
+                except:
+                    continue
+                if self.is_file_exists(self.base_folder + "/" + episode + "_01.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_01.png"):
+                    continue
+                split4 = split1[i].split('<ul class="bxslider1 bxslider">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('</ul>')[0].split('<img src="')
+                for j in range(1, len(split5), 1):
+                    imageUrl = self.PAGE_PREFIX + split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j).zfill(2)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Rikei ga Koi ni Ochita no de Shoumei shitemita.
 class RikekoiDownload(Winter2020AnimeDownload):
