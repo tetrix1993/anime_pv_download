@@ -159,13 +159,13 @@ class HitoribocchiDownload(Spring2019AnimeDownload):
 class IsekaiQuartetDownload(Spring2019AnimeDownload):
     
     IMAGE_PREFIX = "http://isekai-quartet.com/"
-    PAGE_LINK = "http://isekai-quartet.com/story/"
+    PAGE_LINK = "http://isekai-quartet.com/story/index_s1.html"
     FINAL_EPISODE = 12
     NUM_OF_PICTURES_PER_PAGE = 6
     
     def __init__(self):
         super().__init__()
-        self.base_folder = self.base_folder + "/isekai-quartet"
+        self.base_folder = self.base_folder + "/isekai-quartet-test"
         if not os.path.exists(self.base_folder):
             os.makedirs(self.base_folder)
     

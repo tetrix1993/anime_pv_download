@@ -321,7 +321,7 @@ class InfiniteDendrogramDownload(Winter2020AnimeDownload):
 # Isekai Quartet 2
 class IsekaiQuartet2Download(Winter2020AnimeDownload):
     PAGE_PREFIX = "http://isekai-quartet.com/"
-    STORY_PAGE = "http://isekai-quartet.com/story/"
+    STORY_PAGE = "http://isekai-quartet.com/story/index.html"
     
     def __init__(self):
         super().__init__()
@@ -330,7 +330,6 @@ class IsekaiQuartet2Download(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        return
         try:
             response = self.get_response(self.STORY_PAGE)
             split1 = response.split('<div id="S_')
