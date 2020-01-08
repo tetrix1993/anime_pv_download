@@ -415,6 +415,7 @@ class BofuriDownload(Winter2020AnimeDownload):
 # Jibaku Shounen Hanako-kun
 class HanakoKunDownload(Winter2020AnimeDownload):
     PAGE_PREFIX = "https://www.tbs.co.jp/anime/hanakokun/"
+    STORY_PAGE = "https://www.tbs.co.jp/anime/hanakokun/story/"
     
     def __init__(self):
         super().__init__()
@@ -423,7 +424,33 @@ class HanakoKunDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<ul class="story-nav">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</ul>')[0].split('<!--')[0].split('<a href="')
+            for i in range(1, len(split2), 1):
+                split3 = split2[i].split('.png"></a>')[0].split('src="img/storynav_')
+                if len(split3) < 2:
+                    continue
+                try:
+                    episode_temp = int(split3[1])
+                    episode = str(episode_temp).zfill(2)
+                except Exception as e:
+                    continue
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.STORY_PAGE + split2[i].split('"')[0]
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<div class="swiper-slide"><img src="')
+                for j in range(1, len(split4), 1):
+                    imageUrl = self.STORY_PAGE + split4[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Koisuru Asteroid
 class KoisuruAsteroidDownload(Winter2020AnimeDownload):
