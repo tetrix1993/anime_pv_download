@@ -6,11 +6,11 @@ from main_download import MainDownload
 # Gotoubun no Hanayome http://www.tbs.co.jp/anime/5hanayome/ #五等分の花嫁 @5Hanayome
 # Hatena Illusion http://hatenaillusion-anime.com/story.html #はてなイリュージョン #hatenaillusion @hatena_anime [SAT]
 # Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [WED]
-# Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime
-# Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet
+# Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime [WED]
+# Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet [WED]
 # Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku [TUE]
 # Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime [WED]
-# Jibaku Shounen Hanako-kun https://www.tbs.co.jp/anime/hanakokun/story/ #花子くん #花子くんアニメ @hanakokun_info
+# Jibaku Shounen Hanako-kun https://www.tbs.co.jp/anime/hanakokun/story/ #花子くん #花子くんアニメ @hanakokun_info [WED]
 # Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス #恋する小惑星 @koiastv [TUE]
 # Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri
 # Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [TUE]
@@ -278,6 +278,9 @@ class HeyaCampDownload(Winter2020AnimeDownload):
 class InfiniteDendrogramDownload(Winter2020AnimeDownload):
 
     PAGE_PREFIX = "http://dendro-anime.jp/story/"
+    EPISODE_PAGE_PREFIX = "http://dendro-anime.jp/story/ep"
+    EPISODE_PAGE_SUFFIX = "/"
+    STORY_PAGE = "http://dendro-anime.jp/story/"
     
     def __init__(self):
         super().__init__()
@@ -286,7 +289,34 @@ class InfiniteDendrogramDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<section class="categiry_list is-pc">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</section>')[0].split('<li><a href="http://dendro-anime.jp/story/ep')
+            for i in range(1, len(split2), 1):
+                split3 = split2[i].split('"')[0].split('/')[0]
+                try:
+                    episode_temp = int(split3[1])
+                    episode = str(episode_temp).zfill(2)
+                except Exception as e:
+                    continue
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.EPISODE_PAGE_PREFIX + split3 + self.EPISODE_PAGE_SUFFIX
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<div class="slide">')
+                for j in range(1, len(split4), 1):
+                    split5 = split4[j].split('<img src="')
+                    if len(split5) < 2:
+                        continue
+                    imageUrl = split5[1].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Isekai Quartet 2
 class IsekaiQuartet2Download(Winter2020AnimeDownload):
