@@ -727,8 +727,10 @@ class RikekoiDownload(Winter2020AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Somali to Mori no Kamisama
 class SomaliDownload(Winter2020AnimeDownload):
     PAGE_PREFIX = "https://somali-anime.com/"
+    STORY_PAGE = "https://somali-anime.com/story.html"
     
     def __init__(self):
         super().__init__()
@@ -737,7 +739,33 @@ class SomaliDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<div class="contents_container story">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('<a href="')
+            for i in range(2, len(split2), 1):
+                split3 = split2[i].split('"')[0]
+                episode = ''
+                try:
+                    episode_temp = int(split3.split('.html')[0].split('story')[1])
+                    episode = str(episode_temp).zfill(2)
+                except Exception as e:
+                    continue
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.PAGE_PREFIX + split3
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<div class="cp_slide_item"><img src="')
+                for j in range(1, len(split4), 1):
+                    imageUrl = self.PAGE_PREFIX + split4[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+        
 
 # Toaru Kagaku no Railgun T
 class RailgunTDownload(Winter2020AnimeDownload):
