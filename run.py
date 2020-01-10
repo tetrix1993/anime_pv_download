@@ -120,7 +120,7 @@ def run():
     #downloads.append(MahouShoujoTokushusenAsukaDownload()) #Mahou Shoujo Tokushusen Asuka
     #downloads.append(MiniTojiDownload()) #Mini Toji
     #downloads.append(PastelMemoriesDownload()) #Pastel Memories
-    downloads.append(TateNoYuushaDownload()) #Tate no Yuusha no Nariagari
+    #downloads.append(TateNoYuushaDownload()) #Tate no Yuusha no Nariagari
     #downloads.append(WatatenDownload()) #Watashi ni Tenshi ga Maiorita!
     
     # 2018-4 Fall 2018 Anime
