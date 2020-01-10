@@ -10,6 +10,7 @@ from anime_2019_2 import *
 from anime_2019_3 import *
 from anime_2019_4 import *
 from anime_2020_1 import *
+from anime_2020_2 import *
 
 def run_process(download):
     print("Running " + download.__class__.__name__ + " (" + str(os.getpid()) + ")")
@@ -133,7 +134,7 @@ def download_fall_2019_anime():
     #downloads.append(HiScoreGirl2Download())
     #downloads.append(HonzukiDownload())
     #downloads.append(IrumaKunDownload())
-    downloads.append(KandagawaJetGirlsDownload())
+    #downloads.append(KandagawaJetGirlsDownload())
     #downloads.append(KemonomichiDownload())
     #downloads.append(NoukinDownload())
     #downloads.append(NullPetaDownload())
@@ -246,6 +247,24 @@ def download_winter_2020_anime():
     
     process_download(downloads)
 
+def download_spring_2020_anime():
+    downloads = []
+    
+    downloads.append(GleipnirDownload())
+    downloads.append(HachinanDownload())
+    downloads.append(HamehuraDownload())
+    downloads.append(Honzuki2Download())
+    downloads.append(Kaguyasama2Download())
+    downloads.append(MaohgakuinDownload())
+    downloads.append(Oregairu3Download())
+    downloads.append(ReZero2Download())
+    downloads.append(TamayomiDownload())
+    downloads.append(TeiboDownload())
+    downloads.append(Tsugumomo2Download())
+    downloads.append(YesterdayDownload())
+    
+    process_download(downloads)
+
 def download_all():
     fns = []
     fns.append(download_fall_2018_anime)
@@ -254,6 +273,7 @@ def download_all():
     fns.append(download_summer_2019_anime)
     fns.append(download_fall_2019_anime)
     fns.append(download_winter_2020_anime)
+    fns.append(download_spring_2020_anime)
     
     process_download_function(fns)
 
@@ -268,6 +288,7 @@ if __name__ == '__main__':
     download_fall_2019_anime()
     
     download_winter_2020_anime()
+    #download_spring_2020_anime()
     
     print("Download completed")
 

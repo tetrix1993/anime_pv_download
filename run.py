@@ -20,6 +20,7 @@ from anime_2019_2 import *
 from anime_2019_3 import *
 from anime_2019_4 import *
 from anime_2020_1 import *
+from anime_2020_2 import *
 
 def run_process(download):
     print("Running " + download.__class__.__name__ + " (" + str(os.getpid()) + ")")
@@ -37,6 +38,21 @@ def process_download(downloads):
 
 def run():
     downloads = []
+    
+    # 2020-2 Spring 2020 Anime
+    
+    #downloads.append(GleipnirDownload()) #Gleipnir
+    #downloads.append(HachinanDownload()) #Hachi-nan tte, Sore wa Nai deshou!
+    #downloads.append(HamehuraDownload()) #Otome Game no Hametsu Flag shika Nai Akuyaku Reijou ni Tensei shiteshimatta...
+    #downloads.append(Honzuki2Download()) #Honzuki no Gekokujou: Shisho ni Naru Tame ni wa Shudan wo Erandeiraremasen 2nd Season
+    #downloads.append(Kaguyasama2Download()) #Kaguya-sama wa Kokurasetai? Tensai-tachi no Renai Zunousen
+    #downloads.append(MaohgakuinDownload()) #Maou Gakuin no Futekigousha: Shijou Saikyou no Maou no Shiso, Tensei shite Shison-tachi no Gakkou e
+    #downloads.append(Oregairu3Download()) #Yahari Ore no Seishun Love Comedy wa Machigatteiru. Kan
+    #downloads.append(ReZero2Download()) #Re:Zero kara Hajimeru Isekai Seikatsu 2nd Season
+    #downloads.append(TamayomiDownload()) #Tamayomi
+    #downloads.append(TeiboDownload()) #Houkago Teibou Nisshi
+    #downloads.append(Tsugumomo2Download()) #Tsugu Tsugumomo
+    #downloads.append(YesterdayDownload()) #Yesterday wo Utatte
 
     # 2020-1 Winter 2020 Anime
     
