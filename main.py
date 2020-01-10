@@ -227,7 +227,6 @@ def download_winter_2020_anime():
     downloads.append(BofuriDownload())
     downloads.append(DarwinsGameDownload())
     downloads.append(EizoukenDownload())
-    downloads.append(Gotoubun2Download())
     downloads.append(HatenaIllusionDownload())
     downloads.append(HeyaCampDownload())
     downloads.append(InfiniteDendrogramDownload())

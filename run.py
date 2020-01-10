@@ -43,7 +43,6 @@ def run():
     #downloads.append(BofuriDownload()) #Itai no wa Iya nano de Bougyoryoku ni Kyokufuri Shitai to Omoimasu.
     #downloads.append(DarwinsGameDownload()) #Darwin's Game
     #downloads.append(EizoukenDownload()) #Eizouken ni wa Te wo Dasu na!
-    #downloads.append(Gotoubun2Download()) #Gotoubun no Hanayome 2nd Season
     #downloads.append(HatenaIllusionDownload()) #Hatena Illusion
     #downloads.append(HeyaCampDownload()) #Heya Camp
     #downloads.append(InfiniteDendrogramDownload()) #Infinite Dendrogram
@@ -121,7 +120,7 @@ def run():
     #downloads.append(MahouShoujoTokushusenAsukaDownload()) #Mahou Shoujo Tokushusen Asuka
     #downloads.append(MiniTojiDownload()) #Mini Toji
     #downloads.append(PastelMemoriesDownload()) #Pastel Memories
-    #downloads.append(TateNoYuushaDownload()) #Tate no Yuusha no Nariagari
+    downloads.append(TateNoYuushaDownload()) #Tate no Yuusha no Nariagari
     #downloads.append(WatatenDownload()) #Watashi ni Tenshi ga Maiorita!
     
     # 2018-4 Fall 2018 Anime

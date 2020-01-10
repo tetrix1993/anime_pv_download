@@ -2,22 +2,21 @@ import os
 from main_download import MainDownload
 
 # Darwin's Game https://darwins-game.com/story/ #Dゲーム @d_game_official [WED]
-# Eizouken http://eizouken-anime.com/story/ #映像研 @Eizouken_anime [THU]
-# Gotoubun no Hanayome http://www.tbs.co.jp/anime/5hanayome/ #五等分の花嫁 @5Hanayome
+# Eizouken http://eizouken-anime.com/story/ #映像研 @Eizouken_anime [FRI]
 # Hatena Illusion http://hatenaillusion-anime.com/story.html #はてなイリュージョン #hatenaillusion @hatena_anime [SAT]
 # Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [WED]
-# Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime [WED]
+# Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime [FRI]
 # Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet [WED]
 # Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku [TUE]
-# Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime [WED]
+# Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime [FRI]
 # Jibaku Shounen Hanako-kun https://www.tbs.co.jp/anime/hanakokun/story/ #花子くん #花子くんアニメ @hanakokun_info [WED]
 # Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス #恋する小惑星 @koiastv [TUE]
-# Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri
-# Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [TUE]
+# Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri [THU]
+# Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [FRI]
 # Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime [FRI]
 # Plunderer http://plunderer-info.com/ #プランダラ @plundereranime [TUE]
 # Rikekoi https://rikekoi.com/story #リケ恋 #りけこい #rikekoi @rikeigakoini [MON]
-# Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime
+# Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime [THU]
 # Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project [SUN]
 
 # Winter 2020 Anime
@@ -101,55 +100,6 @@ class EizoukenDownload(Winter2020AnimeDownload):
                 for i in range(1, len(split1), 1):
                     imageUrl = self.PAGE_PREFIX + split1[i].split('"')[0]
                     filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(i).zfill(2)
-                    self.download_image(imageUrl, filepathWithoutExtension)
-        except Exception as e:
-            print("Error in running " + self.__class__.__name__)
-            print(e)
-
-# Gotoubun no Hanayome 2
-class Gotoubun2Download(Winter2020AnimeDownload):
-
-    PAGE_PREFIX = "http://www.tbs.co.jp/anime/5hanayome/story/"
-    # FINAL_EPISODE = 12
-    NUM_OF_PICTURES_PER_PAGE = 4
-
-    def __init__(self):
-        super().__init__()
-        self.base_folder = self.base_folder + "/gotoubun2"
-        if not os.path.exists(self.base_folder):
-            os.makedirs(self.base_folder)
-    
-    def run(self):
-        return
-        try:
-            page_response = self.get_response(self.PAGE_PREFIX)
-            if (len(page_response) == 0):
-                return
-            main_page_split = page_response.split("<ul class=\"storynav clearfix\">")
-            if (len(main_page_split) < 2):
-                return
-            main_page_split2 = main_page_split[1].split("</ul>")
-            page_split = main_page_split2[0].split("<li><a href=\"")
-            if len(page_split) < 2:
-                return
-            for i in range(len(page_split)):
-                if i == 0:
-                    continue
-                episode = str(i).zfill(2)
-                page_url = page_split[i].split("\"")[0]
-                link = self.PAGE_PREFIX + page_url
-                response = self.get_response(link)
-                if len(response) == 0:
-                    break
-                first_split = response.split("<ul class=\"slides\">")
-                if len(first_split) < 2:
-                    break
-                textBlocks = first_split[1].split("<img src=\"")
-                for j in range(self.NUM_OF_PICTURES_PER_PAGE + 1):
-                    if j == 0:
-                        continue
-                    imageUrl = self.PAGE_PREFIX + textBlocks[j].split("\"")[0]
-                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
                     self.download_image(imageUrl, filepathWithoutExtension)
         except Exception as e:
             print("Error in running " + self.__class__.__name__)
