@@ -14,7 +14,7 @@ from main_download import MainDownload
 # Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri [THU]
 # Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [FRI]
 # Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime [FRI]
-# Plunderer http://plunderer-info.com/ #プランダラ @plundereranime [TUE]
+# Plunderer http://plunderer-info.com/ #プランダラ @plundereranime [FRI]
 # Rikekoi https://rikekoi.com/story #リケ恋 #りけこい #rikekoi @rikeigakoini [MON]
 # Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime [THU]
 # Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project [SUN]
@@ -600,7 +600,7 @@ class PlundererDownload(Winter2020AnimeDownload):
                     continue
                 if self.is_file_exists(self.base_folder + "/" + episode + "_01.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_01.png"):
                     continue
-                split4 = split1[i].split('<ul class="bxslider1 bxslider">')
+                split4 = split1[i].split('<ul class="bxslider')
                 if len(split4) < 2:
                     continue
                 split5 = split4[1].split('</ul>')[0].split('<img src="')
