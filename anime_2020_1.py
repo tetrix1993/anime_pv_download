@@ -554,7 +554,8 @@ class MurenaseSetonGakuenDownload(Winter2020AnimeDownload):
 # Nekopara
 class NekoparaDownload(Winter2020AnimeDownload):
     
-    TEMP = "https://nekopara-anime.com/ja/php/avex/api.php?mode=46&id=1000682"
+    API_45_JSON = 'https://nekopara-anime.com/ja/php/avex/api.php?mode=45'
+    API_46_JSON_PREFIX = 'https://nekopara-anime.com/ja/php/avex/api.php?mode=46&id='
     
     PAGE_PREFIX = "https://nekopara-anime.com/ja/story/"
     
@@ -565,7 +566,22 @@ class NekoparaDownload(Winter2020AnimeDownload):
             os.makedirs(self.base_folder)
     
     def run(self):
-        pass
+        try:
+            api45_json = self.get_json(self.API_45_JSON)
+            id = api45_json['item']['id']
+            url = self.API_46_JSON_PREFIX + id
+            api46_json = self.get_json(url)
+            episode = api46_json['item']['title_mobile'].replace('第','').replace('話','').zfill(2)
+            if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                return
+            split1 = api46_json['item']['contents'].split('<br')[0].split('<img src=\"')
+            for i in range(1, len(split1), 1):
+                imageUrl = split1[i].split('\"')[0]
+                filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(i)
+                self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
 
 # Plunderer
 class PlundererDownload(Winter2020AnimeDownload):
