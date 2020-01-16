@@ -123,33 +123,15 @@ class HatenaIllusionDownload(Winter2020AnimeDownload):
     def run(self):
         try:
             response = self.get_response(self.STORY_PAGE)
-            split1 = response.split('<ul class="episode_list">')
-            if len(split1) < 2:
-                return
-            split2 = split1[1].split('</ul>')[0].split('<li')
-            for i in range(1, len(split2), 1):
-                split3 = split2[i].split('</h2>')[0].split('<h2 class="story_ttl">' + self.CHAR_DAI)
-                if len(split3) < 2:
-                    continue
-                episode_temp = split3[1].split(self.CHAR_WA)[0]
-                episode = 0
-                try:
-                    temp = int(episode_temp)
-                except:
-                    print("Error in running " + self.__class__.__name__)
-                    print("Expected integer. Actual: " + episode_temp)
-                    print("At i = " + str(i))
-                    continue
-                episode = episode_temp.zfill(2)
+            split1 = response.split('<img class="story_r RightToLeft"')
+            for i in range(1, len(split1), 1):
+                episode = str(i).zfill(2)
                 if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
                     continue
-                split4 = split2[i].split('<img')
-                if len(split4) < 2:
+                split2 = split1[i].split('src="./')
+                if len(split2) < 2:
                     continue
-                split5 = split4[1].split('src="./')
-                if len(split5) < 2:
-                    continue
-                imageUrl = self.PAGE_PREFIX + split5[1].split('"')[0]
+                imageUrl = self.PAGE_PREFIX + split2[1].split('"')[0]
                 filepathWithoutExtension = self.base_folder + "/" + episode + "_1"
                 self.download_image(imageUrl, filepathWithoutExtension)
         except Exception as e:
