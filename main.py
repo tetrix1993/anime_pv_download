@@ -238,12 +238,16 @@ def download_winter_2020_anime():
     downloads.append(KyokouSuiriDownload())
     downloads.append(MurenaseSetonGakuenDownload())
     downloads.append(NekoparaDownload())
+    downloads.append(OshibudoDownload())
     downloads.append(PlundererDownload())
     downloads.append(RailgunTDownload())
     downloads.append(RikekoiDownload())
+    downloads.append(RunwayDeWaratteDownload())
     downloads.append(SomaliDownload())
     
     #downloads.append(MocaNewsDownload("20191225/2019122518000c_", "2020-1/heya-camp-moca", 1))
+    
+    downloads.append(WebNewtypeDownload("219613", "2020-1/nekopara-wnt", 2))
     
     process_download(downloads)
 

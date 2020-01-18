@@ -69,9 +69,11 @@ def run():
     #downloads.append(KyokouSuiriDownload()) #Kyokou Suiri
     #downloads.append(MurenaseSetonGakuenDownload()) #Murenase! Seton Gakuen
     #downloads.append(NekoparaDownload()) #Nekopara
+    #downloads.append(OshibudoDownload()) #Oshi ga Budoukan Ittekuretara Shinu
     #downloads.append(PlundererDownload()) #Plunderer
     #downloads.append(RailgunTDownload()) #Toaru Kagaku no Railgun T
     #downloads.append(RikekoiDownload()) #Rikei ga Koi ni Ochita no de Shoumei shitemita.
+    #downloads.append(RunwayDeWaratteDownload()) #Runway de Waratte
     #downloads.append(SomaliDownload()) #Somali to Mori no Kamisama
     
     # 2019-4 Fall 2019 Anime

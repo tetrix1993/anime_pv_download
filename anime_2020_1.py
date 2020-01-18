@@ -712,6 +712,38 @@ class RikekoiDownload(Winter2020AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Runway de Waratte
+class RunwayDeWaratteDownload(Winter2020AnimeDownload):
+    
+    STORY_PAGE = "https://runway-anime.com/introduction/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/runway"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<p class="episode">')
+            for i in range(1, len(split1), 1):
+                episode = ''
+                try:
+                    episode = str(int(split1[i].split('</p>')[0].replace('EPISODE.',''))).zfill(2)
+                except:
+                    continue
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                split2 = split1[i].split('</ul>')[0].split('src="')
+                for j in range(1, len(split2), 1):
+                    imageUrl = split2[j].split('"')[0].replace('-1024x576','')
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Somali to Mori no Kamisama
 class SomaliDownload(Winter2020AnimeDownload):
     PAGE_PREFIX = "https://somali-anime.com/"
