@@ -8,14 +8,16 @@ from main_download import MainDownload
 # Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime [FRI]
 # Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet [WED]
 # Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku [TUE]
-# Itai no wa https://bofuri.jp/story/ #防振り @bofuri_anime [FRI]
+# Itai no wa https://bofuri.jp/story/ #防振り #bofuri @bofuri_anime [FRI]
 # Jibaku Shounen Hanako-kun https://www.tbs.co.jp/anime/hanakokun/story/ #花子くん #花子くんアニメ @hanakokun_info [WED]
 # Koisuru Asteroid http://koiastv.com/story.html #koias #koiastv #恋アス #恋する小惑星 @koiastv [TUE]
 # Kyokou Suiri https://kyokousuiri.jp/ #虚構推理 @kyokou_suiri [THU]
 # Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [FRI]
 # Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime [FRI]
+# Oshibudo https://oshibudo.com/story #推し武道 #oshibudo @anime_oshibudo
 # Plunderer http://plunderer-info.com/ #プランダラ @plundereranime [FRI]
 # Rikekoi https://rikekoi.com/story #リケ恋 #りけこい #rikekoi @rikeigakoini [MON]
+# Runway de Waratte https://runway-anime.com/introduction/ #ランウェイで笑って @runway_anime
 # Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime [THU]
 # Toaru Kagaku no Railgun T https://toaru-project.com/railgun_t/story/ #超電磁砲T @toaru_project [SUN]
 
@@ -512,7 +514,7 @@ class MurenaseSetonGakuenDownload(Winter2020AnimeDownload):
     def run(self):
         try:
             response = self.get_response(self.STORY_PAGE)
-            split1 = response.split('<section class="story__list">')[1].split('</section>')[0].split('<li>')
+            split1 = response.split('<section class="story__list">')[1].split('</section>')[0].split('<li')
             total_episodes = len(split1) - 1
             for i in range(total_episodes):
                 episode = str(i+1).zfill(2)
@@ -563,6 +565,38 @@ class NekoparaDownload(Winter2020AnimeDownload):
                 for j in range(1, len(split1), 1):
                     imageUrl = split1[j].split('\"')[0]
                     filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
+# Oshi ga Budoukan Ittekuretara Shinu
+class OshibudoDownload(Winter2020AnimeDownload):
+    
+    EPISODE_DATA_JSON = "https://oshibudo.com/story/episode_data.php"
+    PAGE_PREFIX = "https://oshibudo.com/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/oshibudo"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            episodes = self.get_json(self.EPISODE_DATA_JSON)
+            for episode_obj in episodes:
+                episode = ''
+                try:
+                    episode = str(int(episode_obj['id'])).zfill(2)
+                except:
+                    continue
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                images = episode_obj['images']
+                for j in range(len(images)):
+                    imageUrl = self.PAGE_PREFIX + images[j]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j+1)
                     self.download_image(imageUrl, filepathWithoutExtension)
         except Exception as e:
             print("Error in running " + self.__class__.__name__)
