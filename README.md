@@ -1,4 +1,4 @@
-# Anime Episode Preview Downloader
+# Anime Websites Scraper
 Download images of anime's episode previews from official and news websites
 
 ## Introduction
