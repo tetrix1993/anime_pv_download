@@ -1,10 +1,11 @@
 import os
 from main_download import MainDownload
+from scan import WebNewtypeScanner
 
 # Darwin's Game https://darwins-game.com/story/ #Dゲーム @d_game_official [WED]
 # Eizouken http://eizouken-anime.com/story/ #映像研 @Eizouken_anime [FRI]
 # Hatena Illusion http://hatenaillusion-anime.com/story.html #はてなイリュージョン #hatenaillusion @hatena_anime [SAT]
-# Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [WED]
+# Heya Camp https://yurucamp.jp/heyacamp/ #ゆるキャン #へやキャン @yurucamp_anime [MON]
 # Infinite Dendrogram http://dendro-anime.jp/story/ #デンドロ @dendro_anime [FRI]
 # Isekai Quartet 2 http://isekai-quartet.com/story/ #いせかる @isekai_quartet [WED]
 # Ishuzoku Reviewers https://isyuzoku.com/story/ #isyuzoku @isyuzoku [TUE]
@@ -603,7 +604,7 @@ class NekoparaDownload(Winter2020AnimeDownload):
                 #episode = api46_json['item']['title_mobile'].split('話')[0].replace('第','').zfill(2)
                 episode = str(len(ids) - i).zfill(2) 
                 if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
-                    return
+                    break
                 split1 = api46_json['item']['contents'].split('<br')[0].split('<img src=\"')
                 for j in range(1, len(split1), 1):
                     imageUrl = split1[j].split('\"')[0]
@@ -612,6 +613,7 @@ class NekoparaDownload(Winter2020AnimeDownload):
         except Exception as e:
             print("Error in running " + self.__class__.__name__)
             print(e)
+        WebNewtypeScanner('ネコぱら',self.base_folder).run()
 
 # Oshi ga Budoukan Ittekuretara Shinu
 class OshibudoDownload(Winter2020AnimeDownload):
