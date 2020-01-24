@@ -11,3 +11,6 @@ from scan import *
 #IsekaiQuartetDownload().run()
 #WebNewtypeScanner("慎重勇者",'2019-4/shinchou-yuusha-wnt').run()
 #WebNewtypeScanner("先行",'').run()
+#SEARCH_URL = "https://aniverse-mag.com/page/%s?s=%s"
+#print(SEARCH_URL % ("1", "ABC"))
+#AniverseMagazineScanner("プランダラ", "").run()

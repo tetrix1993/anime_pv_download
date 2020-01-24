@@ -27,6 +27,71 @@ class MainScanner():
         except Exception as e:
             print(e)
         return response
+
+class AniverseMagazineScanner(MainScanner):
+    
+    # Example prefix: https://aniverse-mag.com/page/2?s=プランダラ
+    SEARCH_URL = "https://aniverse-mag.com/page/%s?s=%s"
+    
+    def __init__(self, keyword, base_folder):
+        super().__init__()
+        self.keyword = keyword
+        self.base_folder = base_folder.replace("download/","") + "-aniverse"
+    
+    def has_results(self, text):
+        return "<h2>Sorry, nothing found.</h2>" not in text
+    
+    def has_next_page(self, text):
+        return '<i class="fa fa-long-arrow-right">' in text
+        
+    def get_episode_num(self, news_title):
+        split1 = news_title.split('話')[0].split('第')
+        if len(split1) < 2:
+            return -1
+        try:
+            return int(split1[1])
+        except:
+            return -1
+        
+    def process_page(self, text):
+        split1 = text.split('<h2 class="cb-post-title">')
+        for i in range(1, len(split1), 1):
+            split2 = split1[i].split('</a>')[0].split('">')
+            if len(split2) < 2:
+                continue
+            news_title = split2[1].split('</a>')[0]
+            if self.keyword not in news_title or '先行' not in news_title or '第' not in news_title or '話' not in news_title:
+                continue
+            episode_num = self.get_episode_num(news_title)
+            if (episode_num < 1):
+                continue
+            episode = str(episode_num).zfill(2)
+            if os.path.isfile(self.base_folder + "/" + episode + "_01.jpg"):
+                return 1
+            split3 = split2[0].split('<a href="')
+            if len(split3) < 2:
+                continue
+            url = split3[1]
+            print(episode + " " + url)
+        
+    def run(self):
+        first_page_url = self.SEARCH_URL % ("1", self.keyword)
+        first_page_response = self.get_response(url=first_page_url,decode=True)
+        if self.has_results(first_page_response):
+            response = first_page_response
+            result = self.process_page(response)
+            if result == 1:
+                return
+            page = 2
+            while page <= self.MAXIMUM_PAGES:
+                if not self.has_next_page(response):
+                    break
+                next_url = self.SEARCH_URL % (str(page), self.keyword)
+                response = self.get_response(url=next_url, decode=True)
+                result = self.process_page(response)
+                if result == 1:
+                    return
+                page += 1
         
 class WebNewtypeScanner(MainScanner):
     
@@ -75,7 +140,7 @@ class WebNewtypeScanner(MainScanner):
             if (episode_num < 1):
                 continue
             episode = str(episode_num).zfill(2)
-            if os.path.isfile(self.base_folder + "/" + episode + "_1.jpg"):
+            if os.path.isfile(self.base_folder + "/" + episode + "_01.jpg"):
                 return 1
             split4 = split2[i].split('<a href="')
             if len(split4) < 2:
@@ -106,4 +171,9 @@ class WebNewtypeScanner(MainScanner):
                     return
                 page += 1
 
+if __name__ == '__main__':
+    print('Bofuri: ')
+    AniverseMagazineScanner("痛いのは嫌なので", "").run()
+    print('Plunderer: ')
+    AniverseMagazineScanner("プランダラ", "").run()
     
