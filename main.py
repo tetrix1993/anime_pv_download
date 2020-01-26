@@ -4,6 +4,7 @@ from main_download import MainDownload
 from external_download import AniverseMagazineDownload
 from external_download import MocaNewsDownload
 from external_download import WebNewtypeDownload
+from anime_2018_1 import *
 from anime_2018_2 import *
 from anime_2018_3 import *
 from anime_2018_4 import *
@@ -41,6 +42,28 @@ def process_download_function(fns):
     
     for process in processes:
         process.join()
+
+def download_winter_2018_anime():
+    downloads = []
+    
+    downloads.append(BeatlessDownload())
+    downloads.append(DarlingInTheFranxxDownload())
+    downloads.append(DeathMarchDownload())
+    downloads.append(GrancrestSenkiDownload())
+    downloads.append(HakumikoDownload())
+    downloads.append(MarchenMadchenDownload())
+    downloads.append(MitsuboshiColorsDownload())
+    downloads.append(Overlord2Download())
+    downloads.append(PopTeamEpicDownload())
+    downloads.append(RamenKoizumiDownload())
+    downloads.append(RyuohDownload())
+    downloads.append(SlowStartDownload())
+    downloads.append(TakagisanDownload())
+    downloads.append(TojiNoMikoDownload())
+    downloads.append(YorimoiDownload())
+    downloads.append(YuruCampDownload())
+    
+    process_download(downloads)
 
 def download_spring_2018_anime():
     downloads = []
@@ -316,6 +339,7 @@ def download_spring_2020_anime():
 
 def download_all():
     fns = []
+    fns.append(download_winter_2018_anime)
     fns.append(download_spring_2018_anime)
     fns.append(download_summer_2018_anime)
     fns.append(download_fall_2018_anime)
@@ -331,6 +355,7 @@ def download_all():
 if __name__ == '__main__':
     #download_all()
     
+    #download_winter_2018_anime()
     #download_spring_2018_anime()
     #download_summer_2018_anime()
     #download_fall_2018_anime()

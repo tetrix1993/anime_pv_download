@@ -14,6 +14,7 @@
 # Once you found your anime, remove the first '#' on the same line. Then run the script in command prompt/terminal (E.g. python run.py)
 
 from multiprocessing import Process
+from anime_2018_1 import *
 from anime_2018_2 import *
 from anime_2018_3 import *
 from anime_2018_4 import *
@@ -199,6 +200,25 @@ def run():
     #downloads.append(LostorageConflatedWixossDownload()) #Lostorage Conflated WIXOSS
     #downloads.append(TadakoiDownload()) #Tada-kun wa Koi wo Shinai
     #downloads.append(WotakoiDownload()) #Wotaku ni Koi wa Muzukashii
+    
+    # 2018-1 Winter 2018 Anime
+    
+    #downloads.append(BeatlessDownload()) #Beatless
+    #downloads.append(DarlingInTheFranxxDownload()) #Darling in the FranXX
+    #downloads.append(DeathMarchDownload()) #Death March kara Hajimaru Isekai Kyousoukyoku
+    #downloads.append(GrancrestSenkiDownload()) #Grancrest Senki
+    #downloads.append(HakumikoDownload()) #Hakumei no Mikochi
+    #downloads.append(MarchenMadchenDownload()) #Marchen Madchen
+    #downloads.append(MitsuboshiColorsDownload()) #Mitsuboshi Colors
+    #downloads.append(Overlord2Download()) #Overlord II
+    #downloads.append(PopTeamEpicDownload()) #Poputepipikku (Pop Team Epic)
+    #downloads.append(RamenKoizumiDownload()) #Ramen Daisuki Koizumi-san
+    #downloads.append(RyuohDownload()) #Ryuuou no Oshigoto!
+    #downloads.append(SlowStartDownload()) #Slow Start
+    #downloads.append(TakagisanDownload()) #Karakai Jouzu Takagi-san
+    #downloads.append(TojiNoMikoDownload()) #Toji no Miko
+    #downloads.append(YorimoiDownload()) #Sora yori mo Tooi Basho
+    #downloads.append(YuruCampDownload()) #Yuru Camp
 
     process_download(downloads)
 

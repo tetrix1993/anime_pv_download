@@ -442,8 +442,7 @@ class IslandDownload(Summer2018AnimeDownload):
 class Overlord3Download(Summer2018AnimeDownload):
     
     IMAGE_PREFIX = "http://overlord-anime.com/assets/story/"
-    FIRST_EPISODE = 15
-    FINAL_EPISODE = 27
+    FINAL_EPISODE = 13
     NUM_OF_PICTURES_PER_PAGE = 6
     
     def __init__(self):
@@ -454,12 +453,12 @@ class Overlord3Download(Summer2018AnimeDownload):
     
     def run(self):
         try:
-            for i in range(self.FIRST_EPISODE, self.FINAL_EPISODE + 1, 1):
-                episode = str(i).zfill(2)
+            for i in range(self.FINAL_EPISODE):
+                episode = str(i+1).zfill(2)
                 if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
                     continue
                 for j in range(self.NUM_OF_PICTURES_PER_PAGE):
-                    imageUrl = self.IMAGE_PREFIX + episode + '_' + str(j+1) + '.jpg'
+                    imageUrl = self.IMAGE_PREFIX + str(i+15) + '_' + str(j+1) + '.jpg'
                     filepathWithoutExtension = self.base_folder + "/" + episode + '_' + str(j+1)
                     self.download_image(imageUrl, filepathWithoutExtension)
         except Exception as e:

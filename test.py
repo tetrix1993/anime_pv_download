@@ -1,3 +1,4 @@
+from anime_2018_1 import *
 from anime_2018_2 import *
 from anime_2018_3 import *
 from anime_2018_4 import *
