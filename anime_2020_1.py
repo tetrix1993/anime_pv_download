@@ -827,7 +827,7 @@ class SomaliDownload(Winter2020AnimeDownload):
         except Exception as e:
             print("Error in running " + self.__class__.__name__)
             print(e)
-        
+        WebNewtypeScanner('ソマリと森の神様',self.base_folder).run()
 
 # Toaru Kagaku no Railgun T
 class RailgunTDownload(Winter2020AnimeDownload):

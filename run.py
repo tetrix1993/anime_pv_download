@@ -14,6 +14,7 @@
 # Once you found your anime, remove the first '#' on the same line. Then run the script in command prompt/terminal (E.g. python run.py)
 
 from multiprocessing import Process
+from anime_2018_3 import *
 from anime_2018_4 import *
 from anime_2019_1 import *
 from anime_2019_2 import *
@@ -161,6 +162,26 @@ def run():
     #downloads.append(TonariNoKyuuketsukiSanDownload()) #Tonari no Kyuuketsuki-san
     #downloads.append(UlyssesDownload()) #Ulysses: Jehanne Darc to Renkin no Kishi
     #downloads.append(UzamaidDownload()) #Uchi no Maid ga Uzasugiru!
+    
+    # 2018-3 Summer 2018 Anime
+    
+    #downloads.append(AngolmoisDownload()) #Angolmois: Genkou Kassenki
+    #downloads.append(AsobiAsobaseDownload()) #Asobi Asobase
+    #downloads.append(ChioChanDownload()) #Chio-chan no Tsuugakurou
+    #downloads.append(GrandBlueDownload()) #Grand Blue
+    #downloads.append(HanebadoDownload()) #Hanebado!
+    #downloads.append(HappySugarLifeDownload()) #Happy Sugar Life
+    #downloads.append(HarukanaReceiveDownload()) #Harukana Receive
+    #downloads.append(HatarakuSaibouDownload()) #Hataraku Saibou
+    #downloads.append(HiScoreGirlDownload()) #High Score Girl
+    #downloads.append(HyakurenDownload()) #Hyakuren no Haou to Seiyaku no Valkyria
+    #downloads.append(IsekaiMaouDownload()) #Isekai Maou to Shoukan Shoujo no Dorei Majutsu
+    #downloads.append(IslandDownload()) #Island
+    #downloads.append(Overlord3Download()) #Overlord III
+    #downloads.append(SatsurikuDownload()) #Satsuriku no Tenshi
+    #downloads.append(ShichiseiNoSubaruDownload()) #Shichisei no Subaru
+    #downloads.append(TsukumogamiDownload()) #Tsukumogami Kashimasu
+    #downloads.append(YuragisouDownload()) #Yuragi-sou no Yuuna-san
 
     process_download(downloads)
 
