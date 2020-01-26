@@ -206,6 +206,36 @@ class GoblinSlayerDownload(Fall2018AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Golden Kamuy 2nd Season
+class GoldenKamuy2Download(Fall2018AnimeDownload):
+
+    PAGE_URL = "https://kamuy-anime.com/story/%s.html"
+    PAGE_PREFIX = "https://kamuy-anime.com/"
+    FIRST_EPISODE = 13
+    FINAL_EPISODE = 24
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/golden-kamuy2"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        try:
+            for i in range(self.FIRST_EPISODE, self.FINAL_EPISODE + 1, 1):
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg"):
+                    continue
+                response = self.get_response(self.PAGE_URL % episode)
+                split1 = response.split('<div class="ph"><a href="../')
+                for j in range(1, len(split1), 1):
+                    imageUrl = self.PAGE_PREFIX + split1[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + '_' + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Hangyakusei Million Arthur
 class HangyakuseiMillionArthurDownload(Fall2018AnimeDownload):
     
@@ -226,6 +256,8 @@ class HangyakuseiMillionArthurDownload(Fall2018AnimeDownload):
                 return
             split2 = split1[1].split('</table>')[0].split('<a href="../')
             for i in range(1, len(split2), 1):
+                if i > 10:
+                    continue
                 episode = str(i).zfill(2)
                 if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
                     continue

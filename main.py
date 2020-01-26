@@ -4,6 +4,7 @@ from main_download import MainDownload
 from external_download import AniverseMagazineDownload
 from external_download import MocaNewsDownload
 from external_download import WebNewtypeDownload
+from anime_2018_2 import *
 from anime_2018_3 import *
 from anime_2018_4 import *
 from anime_2019_1 import *
@@ -41,6 +42,23 @@ def process_download_function(fns):
     for process in processes:
         process.join()
 
+def download_spring_2018_anime():
+    downloads = []
+    
+    downloads.append(AliceOrAliceDownload())
+    downloads.append(Amanchu2Download())
+    downloads.append(ComicGirlsDownload())
+    downloads.append(GunGaleOnlineDownload())
+    downloads.append(GoldenKamuyDownload())
+    downloads.append(HinamatsuriDownload())
+    downloads.append(HisomasoDownload())
+    downloads.append(LastPeriodDownload())
+    downloads.append(LostorageConflatedWixossDownload())
+    downloads.append(TadakoiDownload())
+    downloads.append(WotakoiDownload())
+    
+    process_download(downloads)
+
 def download_summer_2018_anime():
     downloads = []
     
@@ -73,6 +91,7 @@ def download_fall_2018_anime():
     downloads.append(BeelmamaDownload())
     downloads.append(ConceptionDownload())
     downloads.append(GoblinSlayerDownload())
+    downloads.append(GoldenKamuy2Download())
     downloads.append(HangyakuseiMillionArthurDownload())
     downloads.append(ImoimoDownload())
     downloads.append(IrodukuDownload())
@@ -114,6 +133,7 @@ def download_spring_2019_anime():
     downloads.append(BokubenDownload())
     downloads.append(ChoukadouGirlDownload())
     downloads.append(HachinaiDownload())
+    downloads.append(HangyakuseiMillionArthur2Download())
     downloads.append(HitoribocchiDownload())
     downloads.append(IsekaiQuartetDownload())
     downloads.append(KenjaNoMagoDownload())
@@ -296,6 +316,7 @@ def download_spring_2020_anime():
 
 def download_all():
     fns = []
+    fns.append(download_spring_2018_anime)
     fns.append(download_summer_2018_anime)
     fns.append(download_fall_2018_anime)
     fns.append(download_winter_2019_anime)
@@ -310,6 +331,7 @@ def download_all():
 if __name__ == '__main__':
     #download_all()
     
+    #download_spring_2018_anime()
     #download_summer_2018_anime()
     #download_fall_2018_anime()
     

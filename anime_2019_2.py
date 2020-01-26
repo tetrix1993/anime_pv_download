@@ -119,6 +119,45 @@ class HachinaiDownload(Spring2019AnimeDownload):
             print("Error in running " + self.__class__.__name__)
             print(e)
 
+# Hangyakusei Million Arthur 2nd Season
+class HangyakuseiMillionArthur2Download(Spring2019AnimeDownload):
+    
+    PAGE_PREFIX = "http://hangyakusei-anime.com/"
+    STORY_PAGE = "http://hangyakusei-anime.com/story/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/hangyakusei2"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+            
+    def run(self):
+        try:
+            response = self.get_response(self.STORY_PAGE)
+            split1 = response.split('<table summary="List_Type01">')
+            if len(split1) < 2:
+                return
+            split2 = split1[1].split('</table>')[0].split('<a href="../')
+            for i in range(1, len(split2), 1):
+                if i < 11 or i > 23:
+                    continue
+                episode = str(i).zfill(2)
+                if self.is_file_exists(self.base_folder + "/" + episode + "_1.jpg") or self.is_file_exists(self.base_folder + "/" + episode + "_1.png"):
+                    continue
+                page_url = self.PAGE_PREFIX + split2[i].split('"')[0]
+                page_response = self.get_response(page_url)
+                split4 = page_response.split('<div class="block line_01">')
+                if len(split4) < 2:
+                    continue
+                split5 = split4[1].split('<div class="block line_02">')[0].split('<img src="../')
+                for j in range(1, len(split5), 1):
+                    imageUrl = self.PAGE_PREFIX + split5[j].split('"')[0]
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
 # Hitoribocchi no Marumaru Seikatsu
 class HitoribocchiDownload(Spring2019AnimeDownload):
     
@@ -165,7 +204,7 @@ class IsekaiQuartetDownload(Spring2019AnimeDownload):
     
     def __init__(self):
         super().__init__()
-        self.base_folder = self.base_folder + "/isekai-quartet-test"
+        self.base_folder = self.base_folder + "/isekai-quartet"
         if not os.path.exists(self.base_folder):
             os.makedirs(self.base_folder)
     

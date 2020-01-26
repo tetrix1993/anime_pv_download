@@ -14,6 +14,7 @@
 # Once you found your anime, remove the first '#' on the same line. Then run the script in command prompt/terminal (E.g. python run.py)
 
 from multiprocessing import Process
+from anime_2018_2 import *
 from anime_2018_3 import *
 from anime_2018_4 import *
 from anime_2019_1 import *
@@ -114,6 +115,7 @@ def run():
     #downloads.append(BokubenDownload()) #Bokutachi wa Benkyou ga Dekinai
     #downloads.append(ChoukadouGirlDownload()) #Chou Kadou Girl 1/6
     #downloads.append(HachinaiDownload()) #Hachigatsu no Cinderella Nine
+    #downloads.append(HangyakuseiMillionArthur2Download()) #Hangyakusei Million Arthur 2nd Season
     #downloads.append(HitoribocchiDownload()) #Hitoribocchi no Marumaru Seikatsu
     #downloads.append(IsekaiQuartetDownload()) #Isekai Quartet
     #downloads.append(KenjaNoMagoDownload()) #Kenja no Mago
@@ -150,6 +152,7 @@ def run():
     #downloads.append(BeelmamaDownload()) #Beelzebub-jou no Okinimesu mama.
     #downloads.append(ConceptionDownload()) #Conception
     #downloads.append(GoblinSlayerDownload()) #Goblin Slayer
+    #downloads.append(GoldenKamuy2Download()) #Golden Kamuy 2nd Season
     #downloads.append(HangyakuseiMillionArthurDownload()) #Hangyakusei Million Arthur
     #downloads.append(ImoimoDownload()) #Ore ga Suki nano wa Imouto dakedo Imouto ja Nai
     #downloads.append(IrodukuDownload()) #Irozuku Sekai no Ashita kara
@@ -182,6 +185,20 @@ def run():
     #downloads.append(ShichiseiNoSubaruDownload()) #Shichisei no Subaru
     #downloads.append(TsukumogamiDownload()) #Tsukumogami Kashimasu
     #downloads.append(YuragisouDownload()) #Yuragi-sou no Yuuna-san
+    
+    # 2018-2 Spring 2018 Anime
+    
+    #downloads.append(AliceOrAliceDownload()) #Alice or Alice: Siscon Niisan to Futago no Imouto
+    #downloads.append(Amanchu2Download()) #Amanchu! Advance
+    #downloads.append(ComicGirlsDownload()) #Comic Girls
+    #downloads.append(GoldenKamuyDownload()) #Golden Kamuy
+    #downloads.append(GunGaleOnlineDownload()) #Sword Art Online Alternative: Gun Gale Online
+    #downloads.append(HinamatsuriDownload()) #Hinamatsuri
+    #downloads.append(HisomasoDownload()) #Hisone to Maso-tan
+    #downloads.append(LastPeriodDownload()) #Last Period: Owarinaki Rasen no Monogatari
+    #downloads.append(LostorageConflatedWixossDownload()) #Lostorage Conflated WIXOSS
+    #downloads.append(TadakoiDownload()) #Tada-kun wa Koi wo Shinai
+    #downloads.append(WotakoiDownload()) #Wotaku ni Koi wa Muzukashii
 
     process_download(downloads)
 
