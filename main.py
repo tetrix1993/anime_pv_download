@@ -308,6 +308,7 @@ def download_winter_2020_anime():
     downloads.append(OshibudoDownload())
     downloads.append(PlundererDownload())
     downloads.append(RailgunTDownload())
+    #downloads.append(RailgunTDownload2())
     downloads.append(RikekoiDownload())
     downloads.append(RunwayDeWaratteDownload())
     downloads.append(SomaliDownload())
@@ -329,6 +330,7 @@ def download_spring_2020_anime():
     downloads.append(Kaguyasama2Download())
     downloads.append(MaohgakuinDownload())
     downloads.append(Oregairu3Download())
+    downloads.append(PriconneDownload())
     downloads.append(ReZero2Download())
     downloads.append(TamayomiDownload())
     downloads.append(TeiboDownload())
@@ -365,8 +367,8 @@ if __name__ == '__main__':
     #download_summer_2019_anime()
     #download_fall_2019_anime()
     
-    download_winter_2020_anime()
-    #download_spring_2020_anime()
+    #download_winter_2020_anime()
+    download_spring_2020_anime()
     
     print("Download completed")
 

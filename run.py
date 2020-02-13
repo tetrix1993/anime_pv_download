@@ -51,6 +51,7 @@ def run():
     #downloads.append(Kaguyasama2Download()) #Kaguya-sama wa Kokurasetai? Tensai-tachi no Renai Zunousen
     #downloads.append(MaohgakuinDownload()) #Maou Gakuin no Futekigousha: Shijou Saikyou no Maou no Shiso, Tensei shite Shison-tachi no Gakkou e
     #downloads.append(Oregairu3Download()) #Yahari Ore no Seishun Love Comedy wa Machigatteiru. Kan
+    #downloads.append(PriconneDownload()) #Princess Connect! Re:Dive
     #downloads.append(ReZero2Download()) #Re:Zero kara Hajimeru Isekai Seikatsu 2nd Season
     #downloads.append(TamayomiDownload()) #Tamayomi
     #downloads.append(TeiboDownload()) #Houkago Teibou Nisshi

@@ -16,7 +16,7 @@ from scan import WebNewtypeScanner
 # Murenase! Seton Gakuen https://anime-seton.jp/story/ #シートン #群れなせシートン学園 @anime_seton [FRI]
 # Nekopara https://nekopara-anime.com/ja/story/ #ネコぱら @nekopara_anime [FRI]
 # Oshibudo https://oshibudo.com/story #推し武道 #oshibudo @anime_oshibudo
-# Plunderer http://plunderer-info.com/ #プランダラ @plundereranime [FRI]
+# Plunderer http://plunderer-info.com/ #プランダラ #pldr @plundereranime [FRI]
 # Rikekoi https://rikekoi.com/story #リケ恋 #りけこい #rikekoi @rikeigakoini [MON]
 # Runway de Waratte https://runway-anime.com/introduction/ #ランウェイで笑って @runway_anime
 # Somali https://somali-anime.com/story.html #ソマリと森の神様 @somali_anime [THU]
@@ -869,6 +869,34 @@ class RailgunTDownload(Winter2020AnimeDownload):
                 for j in range(1, len(split5), 1):
                     imageUrl = self.PAGE_PREFIX + split5[j].split('"')[0]
                     filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j)
+                    self.download_image(imageUrl, filepathWithoutExtension)
+        except Exception as e:
+            print("Error in running " + self.__class__.__name__)
+            print(e)
+
+# Toaru Kagaku no Railgun T
+class RailgunTDownload2(Winter2020AnimeDownload):
+
+    #https://toaru-project.com/railgun_t/core_sys/images/contents/00000014/block/00000021/00000030.jpg
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/railgun-t-forced"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        template = "https://toaru-project.com/railgun_t/core_sys/images/contents/%s/block/%s/%s.jpg"
+        try:
+            first = 14
+            second = 21
+            k = 30
+            for i in range(12):
+                episode = str(i+1).zfill(2)
+                for j in range(6):
+                    imageUrl = template % (str(first+i).zfill(8),str(second+i).zfill(8),str(k).zfill(8))
+                    filepathWithoutExtension = self.base_folder + "/" + episode + "_" + str(j+1)
+                    k += 1
                     self.download_image(imageUrl, filepathWithoutExtension)
         except Exception as e:
             print("Error in running " + self.__class__.__name__)

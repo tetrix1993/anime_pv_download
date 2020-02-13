@@ -8,6 +8,7 @@ from main_download import MainDownload
 # Kaguya-sama S2 https://kaguya.love/ #かぐや様 @anime_kaguya
 # Maou Gakuin no Futekigousha https://maohgakuin.com/ #魔王学院 @maohgakuin
 # Otome Game https://hamehura-anime.com/ #はめふら #hamehura @hamehura
+# Princess Connect https://anime.priconne-redive.jp/ #アニメプリコネ #プリコネR #プリコネ @priconne_anime
 # Re:Zero S2 http://re-zero-anime.jp/tv/story/ #rezero #リゼロ @Rezero_official
 # Tamayomi https://tamayomi.com/ #tamayomi @tamayomi_PR
 # Tsugumomo S2 http://tsugumomo.com/story/ #つぐもも @tsugumomo_anime
@@ -115,6 +116,20 @@ class HamehuraDownload(Spring2020AnimeDownload):
     def __init__(self):
         super().__init__()
         self.base_folder = self.base_folder + "/hamehura"
+        if not os.path.exists(self.base_folder):
+            os.makedirs(self.base_folder)
+    
+    def run(self):
+        pass
+
+# Princess Connect! Re:Dive
+class PriconneDownload(Spring2020AnimeDownload):
+    
+    PAGE_PREFIX = "https://anime.priconne-redive.jp/"
+    
+    def __init__(self):
+        super().__init__()
+        self.base_folder = self.base_folder + "/priconne"
         if not os.path.exists(self.base_folder):
             os.makedirs(self.base_folder)
     
