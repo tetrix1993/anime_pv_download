@@ -1,4 +1,6 @@
-# Anime Website Scraper
+# Anime Website Scraper (Obsolete)
+**Note: This repository is now obsolete. Please check out the new repository: [anime-web-scraper](https://github.com/tetrix1993/anime-web-scraper)**
+
 Download images of anime's episode previews from official and news websites
 
 ## Introduction
