@@ -1,6 +1,10 @@
 # Anime Website Scraper (Obsolete)
 **Note: This repository is now obsolete. Please check out the new repository: [anime-web-scraper](https://github.com/tetrix1993/anime-web-scraper)**
 
+<details>
+<summary>Click to expand...</summary>
+<br/>
+
 Download images of anime's episode previews from official and news websites
 
 ## Introduction
@@ -25,3 +29,4 @@ pip install requests
 ![example2.png](/images/example2.png)
 5. The images will be saved at the folder `download`.
 ![example3.jpg](/images/example3.jpg)
+</details>
